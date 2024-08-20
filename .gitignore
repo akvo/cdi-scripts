@@ -186,7 +186,7 @@ source/input_data/soil_moisture/*
 source/map_data/*
 source/working_data/*
 source/output_data/GeoTiffs/*
-source/mapping/*
+source/mapping/data/*
 source/mapping/output/maps/*
 
 !source/input_data/MOD21C3_LST/.gitkeep
@@ -196,5 +196,5 @@ source/mapping/output/maps/*
 !source/map_data/.gitkeep
 !source/working_data/.gitkeep
 !source/output_data/GeoTiffs/.gitkeep
-!source/mapping/.gitkeep
+!source/mapping/data/.gitkeep
 !source/mapping/output/maps/.gitkeep

@@ -1,0 +1,6 @@
+# Ignore everything in output/ except .gitignore, .gitkeep, data & output/maps
+*
+!.gitignore
+!.gitkeep
+!data
+!output
