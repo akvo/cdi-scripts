@@ -175,3 +175,26 @@ pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/python
 
+# Mac files
+.DS_Store
+
+# source files
+source/input_data/MOD11C3_LST/*
+source/input_data/MOD13C2_NDVI/*
+source/input_data/CHIRPS/*
+source/input_data/soil_moisture/*
+source/map_data/*
+source/working_data/*
+source/output_data/GeoTiffs/*
+source/mapping/*
+source/mapping/output/maps/*
+
+!source/input_data/MOD11C3_LST/.gitkeep
+!source/input_data/MOD13C2_NDVI/.gitkeep
+!source/input_data/CHIRPS/.gitkeep
+!source/input_data/soil_moisture/.gitkeep
+!source/map_data/.gitkeep
+!source/working_data/.gitkeep
+!source/output_data/GeoTiffs/.gitkeep
+!source/mapping/.gitkeep
+!source/mapping/output/maps/.gitkeep

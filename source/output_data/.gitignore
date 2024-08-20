@@ -1,0 +1,5 @@
+# Ignore everything in output/ except .gitignore and .gitkeep
+*
+!.gitignore
+!.gitkeep
+!GeoTiffs
