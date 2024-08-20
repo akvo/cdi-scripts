@@ -35,7 +35,7 @@ def extract_data(data_set, group, parameter, time=0):
     try:
         # retrieve the parameter values #
         data = data_set[group]['Data Fields'][parameter]
-        results = np.array(data[:]).astype(float)
+        results = np.array(data[:])
         # return the values #
         if time >= 0:
             return results[time]
