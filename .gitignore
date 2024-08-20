@@ -179,7 +179,7 @@ pyrightconfig.json
 .DS_Store
 
 # source files
-source/input_data/MOD11C3_LST/*
+source/input_data/MOD21C3_LST/*
 source/input_data/MOD13C2_NDVI/*
 source/input_data/CHIRPS/*
 source/input_data/soil_moisture/*
@@ -189,7 +189,7 @@ source/output_data/GeoTiffs/*
 source/mapping/*
 source/mapping/output/maps/*
 
-!source/input_data/MOD11C3_LST/.gitkeep
+!source/input_data/MOD21C3_LST/.gitkeep
 !source/input_data/MOD13C2_NDVI/.gitkeep
 !source/input_data/CHIRPS/.gitkeep
 !source/input_data/soil_moisture/.gitkeep
