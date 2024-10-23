@@ -3,23 +3,23 @@
 # Define log file
 CURR_DATE=$(date +%Y%m%d)
 CURR_TIME=$(date +%H%M%S)
-LOG_DIR=~/log/download-log/chirps
-LOG_FILE=${LOG_DIR}/chirps-${CURR_DATE}-${CURR_TIME}.log
+LOG_DIR=~/log/download-log/lst
+LOG_FILE=${LOG_DIR}/lst-${CURR_DATE}-${CURR_TIME}.log
 
 if [ ! -d "${LOG_DIR}" ]; then
     mkdir -p "${LOG_DIR}"
 fi
 
-CHIRPS_DIR=~/dataset/CHIRPS
+LST_DIR=~/dataset/LST
 
-if [ ! -d "${CHIRPS_DIR}" ]; then
-    mkdir -p "${CHIRPS_DIR}"
+if [ ! -d "${LST_DIR}" ]; then
+    mkdir -p "${LST_DIR}"
 fi
 
 # Main script
 {
-    GES_URL="https://data.chc.ucsb.edu/products/CHIRPS-2.0/global_monthly/tifs/"
-    GES_PATTERN=".tif.gz"
+    GES_URL="https://droughtcenter.unl.edu/Outgoing/CDI/data/CDI-Input/LST/"
+    GES_PATTERN=".zip"
 
     URL_DIRS=$(curl -s "${GES_URL}" \
         | grep "${GES_PATTERN}" \
@@ -28,7 +28,10 @@ fi
         | grep "${GES_PATTERN}")
 
     for URLS in ${URL_DIRS}; do
-        wget -P "${CHIRPS_DIR}" "${GES_URL}${URLS}"
+        echo "Downloading ${GES_URL}${URLS}"
+        wget -q -O temp_lst.zip "${GES_URL}${URLS}"
+        unzip -d "${LST_DIR}" temp_lst.zip
+        rm temp_lst.zip
     done
 
     wait
