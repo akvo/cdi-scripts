@@ -1,7 +1,19 @@
 #!/bin/bash
 
 # Define log file
-LOG_FILE="/tmp/download-lst.log"
+CURR_DATE=$(date +%Y%m%d)
+CURR_TIME=$(date +%H%M%S)
+LOG_FILE=~/log/download-log/lst-${CURR_DATE}-${CURR_TIME}.log
+
+if [ ! -d "~/log/download-log" ]; then
+    mkdir -p ~/log/download-log
+fi
+
+LST_DIR=~/dataset/LST
+
+if [ ! -d "${LST_DIR}" ]; then
+    mkdir -p "${LST_DIR}"
+fi
 
 # Main script
 {
@@ -17,7 +29,7 @@ LOG_FILE="/tmp/download-lst.log"
     for URLS in ${URL_DIRS}; do
         echo "Downloading ${GES_URL}${URLS}"
         wget -q -O temp_lst.zip "${GES_URL}${URLS}"
-        unzip -d "../source/input_data/MOD21C3_LST" temp_lst.zip
+        unzip -d "${LST_DIR}" temp_lst.zip
         rm temp_lst.zip
     done
 

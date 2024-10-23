@@ -1,7 +1,19 @@
 #!/bin/bash
 
 # Define log file
-LOG_FILE="/tmp/download-ndvi.log"
+CURR_DATE=$(date +%Y%m%d)
+CURR_TIME=$(date +%H%M%S)
+LOG_FILE=~/log/download-log/ndvi-${CURR_DATE}-${CURR_TIME}.log
+
+if [ ! -d "~/log/download-log" ]; then
+    mkdir -p ~/log/download-log
+fi
+
+NDVI_DIR=~/dataset/NDVI
+
+if [ ! -d "${NDVI_DIR}" ]; then
+    mkdir -p "${NDVI_DIR}"
+fi
 
 # Main script
 {
@@ -20,7 +32,7 @@ LOG_FILE="/tmp/download-ndvi.log"
         wget -q -O temp_ndvi.zip "${GES_URL}${URLS}"
 
         # After download is complete, unzip the file to the target directory
-        unzip -d "../source/input_data/MOD13C2_NDVI" temp_ndvi.zip
+        unzip -d "${NDVI_DIR}" temp_ndvi.zip
 
         # Remove the temp file after unzipping
         rm temp_ndvi.zip
