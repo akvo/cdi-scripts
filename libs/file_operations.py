@@ -25,23 +25,34 @@ class FileHandler:
             except IOError:
                 print("Error creating working directory; check permissions on parent directory.")
 
-    def get_raw_file_names(self, pattern):
+    def get_raw_file_names(self, pattern, root=None, subdir=None):
         """
         This function reads the raw data directory to find available files to process
 
         Args:
             pattern (str): name of the file pattern (from the config) to use in the search
+            root (str): root directory to scan
+            subdir (str): name of the sub-directory if being used
         Returns:
             List of file names
         """
         results = []
+        if root is None:
+            root = self.__raw_data_dir
         try:
             # get the list fo files in the raw data directory #
-            for f in os.listdir(self.__raw_data_dir):
+            for f in os.listdir(root):
+                # check if we have a sub-directory #
+                full_path = os.path.join(root, f)
+                if os.path.isdir(full_path):
+                    results = results + self.get_raw_file_names(pattern, full_path, f)
                 # test the file name against the pattern #
                 if re.search(r'{}'.format(self.__patterns[pattern]), f):
                     # append the name to the results list #
-                    results.append(str(f))
+                    if root != self.__raw_data_dir:
+                        results.append('{}/{}'.format(subdir, f))
+                    else:
+                        results.append(str(f))
         except IOError:
             raise
         except Exception:

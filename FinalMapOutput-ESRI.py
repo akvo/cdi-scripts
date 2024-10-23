@@ -2,11 +2,11 @@ import glob
 import datetime
 import arcpy
 ## Change these to match your directory structure. If you are missing directories you will need to create them
-map_input_dir = r'D:/ProjectData/CDI/[base directory]/mapping/data/'
-map_output_dir = r'D:/ProjectData/CDI/[base directory]/mapping/output/maps/'
-tif_dir = r'D:/ProjectData/CDI/[base directory]/output_data/GeoTiffs/'
+map_input_dir = r'./source/mapping/data/'
+map_output_dir = r'./source/mapping/output/maps/'
+tif_dir = r'./source/output_data/GeoTiffs/'
 reglyr = map_input_dir+'Percentile_colors_new.lyr'
-region = '[Country name]'
+region = 'eSwatini'
 ## Resolution can be changed here
 res = 150
 
@@ -36,6 +36,6 @@ for typ in ['CDI','LST','NDVI','SPI','SM']:
     print 'Creating png map'
     arcpy.mapping.ExportToPNG(mxd,png_dir+region+'_'+typ+'_'+tif_year+int_month+'.png',resolution=res)
     print 'Creating pdf map'
-    arcpy.mapping.ExportToPDF(mxd,pdf_dir+region+'_'+typ+'_'+tif_year+int_month+'.png',resolution=res)
+    arcpy.mapping.ExportToPDF(mxd,pdf_dir+region+'_'+typ+'_'+tif_year+int_month+'.pdf',resolution=res)
     print 'Creating jpg map'
-    arcpy.mapping.ExportToJPEG(mxd,jpg_dir+region+'_'+typ+'_'+tif_year+int_month+'.png',resolution=res)
+    arcpy.mapping.ExportToJPEG(mxd,jpg_dir+region+'_'+typ+'_'+tif_year+int_month+'.jpg',resolution=res)

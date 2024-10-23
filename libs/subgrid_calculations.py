@@ -17,7 +17,7 @@ class NetCDFSubGrid:
         self.first_root_y = 0
         self.last_root_y = 0
         self.columns = int(abs(aoi['e_lon'] - aoi['w_lon']) * 20) + 1  # 0.05 degree spacing = 20 columns/degree
-        self.rows = int(abs(aoi['n_lat'] - aoi['s_lat']) * 20) + 1  # 0.05 degree spacing = 20 rows/degree
+        self.rows = int(round(abs(aoi['n_lat'] - aoi['s_lat']) * 20, 0) + 1)  # 0.05 degree spacing = 20 rows/degree
         
     def __enter__(self):
         try:

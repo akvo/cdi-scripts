@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from netCDF4 import Dataset
 from STEP_0101_read_hdf_create_LST_anom_netcdf import main as step_0101
 from STEP_0102_read_hdf_create_NDVI_anom_netcdf import main as step_0102
 from STEP_0103_read_chirps_create_precip_netcdf_and_spi_netcdf import main as step_0103
