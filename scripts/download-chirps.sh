@@ -1,7 +1,19 @@
 #!/bin/bash
 
 # Define log file
-LOG_FILE="/tmp/download-chirps.log"
+CURR_DATE=$(date +%Y%m%d)
+CURR_TIME=$(date +%H%M%S)
+LOG_FILE=~/log/download-log/chirps-${CURR_DATE}-${CURR_TIME}.log
+
+if [ ! -d "~/log/download-log" ]; then
+    mkdir -p ~/log/download-log
+fi
+
+CHIRPS_DIR=~/dataset/CHIRPS
+
+if [ ! -d "${CHIRPS_DIR}" ]; then
+    mkdir -p "${CHIRPS_DIR}"
+fi
 
 # Main script
 {
@@ -15,7 +27,7 @@ LOG_FILE="/tmp/download-chirps.log"
         | grep "${GES_PATTERN}")
 
     for URLS in ${URL_DIRS}; do
-        wget -P "../source/input_data/CHIRPS" "${GES_URL}${URLS}"
+        wget -P "${CHIRPS_DIR}" "${GES_URL}${URLS}"
     done
 
     wait
