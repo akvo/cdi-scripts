@@ -2,9 +2,7 @@
 
 LOG_DIR=~/log/download-log
 
-if [ ! -d "${LOG_DIR}" ]; then
-    mkdir -p "${LOG_DIR}"
-fi
+mkdir -p "${LOG_DIR}"
 
 # Define log file
 CURR_DATE=$(date +%Y%m%d)
@@ -17,24 +15,9 @@ LST_LOG_FILE=${LOG_DIR}/lst-${CURR_DATE}-${CURR_TIME}.log
 
 # Define directories
 CHIRPS_DIR=~/dataset/CHIRPS
-if [ ! -d "${CHIRPS_DIR}" ]; then
-    mkdir -p "${CHIRPS_DIR}"
-fi
-
 SOIL_MOISTURE_DIR=~/dataset/SOIL_MOISTURE
-if [ ! -d "${SOIL_MOISTURE_DIR}" ]; then
-    mkdir -p "${SOIL_MOISTURE_DIR}"
-fi
-
 NDVI_DIR=~/dataset/NDVI
-if [ ! -d "${NDVI_DIR}" ]; then
-    mkdir -p "${NDVI_DIR}"
-fi
-
 LST_DIR=~/dataset/LST
-if [ ! -d "${LST_DIR}" ]; then
-    mkdir -p "${LST_DIR}"
-fi
 
 EMAIL="$1"
 
@@ -43,15 +26,28 @@ if [ -z "${EMAIL}" ]; then
     exit 1
 fi
 
+function download_file()
+{
+    URL=$1
+    PATTERN=$2
+    LOG_FILE=$3
+    TARGET_DIR=$4
+    EMAIL=$5
+
+    mkdir -p "${TARGET_DIR}"
+
+    ./download.sh "${URL}" "${PATTERN}" "${LOG_FILE}" "${TARGET_DIR}" "${EMAIL}"
+}
+
 # main script
 {
     ./login.sh "${EMAIL}"
 
-    ./download.sh "https://data.chc.ucsb.edu/products/CHIRPS-2.0/global_monthly/tifs/" ".tif.gz" "${CHIRPS_LOG_FILE}" "${CHIRPS_DIR}" "${EMAIL}"
+    download_file "https://data.chc.ucsb.edu/products/CHIRPS-2.0/global_monthly/tifs/" ".tif.gz" "${CHIRPS_LOG_FILE}" "${CHIRPS_DIR}" "${EMAIL}"
 
-    ./download.sh "https://droughtcenter.unl.edu/Outgoing/CDI/data/CDI-Input/NDVI/" ".zip" "${NDVI_LOG_FILE}" "${NDVI_DIR}" "${EMAIL}"
+    download_file "https://droughtcenter.unl.edu/Outgoing/CDI/data/CDI-Input/NDVI/" ".zip" "${NDVI_LOG_FILE}" "${NDVI_DIR}" "${EMAIL}"
 
-    ./download.sh "https://droughtcenter.unl.edu/Outgoing/CDI/data/CDI-Input/LST/" ".zip" "${LST_LOG_FILE}" "${LST_DIR}" "${EMAIL}"
+    download_file "https://droughtcenter.unl.edu/Outgoing/CDI/data/CDI-Input/LST/" ".zip" "${LST_LOG_FILE}" "${LST_DIR}" "${EMAIL}"
 
     URL="https://hydro1.gesdisc.eosdis.nasa.gov/data/FLDAS/FLDAS_NOAH01_C_GL_M.001/"
     URL_DIRS=$(curl -S "${URL}" \
@@ -64,7 +60,7 @@ fi
         GES_URL="${URL}${URLS}"
 
         GES_PATTERN="FLDAS.*\.nc"
-        ./download.sh "${GES_URL}" "${GES_PATTERN}" "${SOIL_MOISTURE_LOG_FILE}" "${SOIL_MOISTURE_DIR}" "${EMAIL}"
+        download_file "${GES_URL}" "${GES_PATTERN}" "${SOIL_MOISTURE_LOG_FILE}" "${SOIL_MOISTURE_DIR}" "${EMAIL}"
     done
 
     wait
