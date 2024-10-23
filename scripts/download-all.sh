@@ -23,7 +23,7 @@ function download_file()
 
     mkdir -p ~/dataset/"${NAME}"
 
-    ./download.sh "${URL}" "${PATTERN}" "${LOG_DIR}/${NAME}-${CURR_DATE}-${CURR_TIME}.log" ~/dataset/"${NAME}" "${EMAIL}"
+    ./download.sh "${URL}" "${PATTERN}" "${LOG_DIR}/${NAME}-${CURR_DATE}-${CURR_TIME}.log" ~/dataset/"${NAME}" "${EMAIL}" > /dev/null 2>&1
 }
 
 # main script
