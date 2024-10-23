@@ -48,8 +48,11 @@ class LandSurfaceTemp:
         Returns:
             String of the year/month values in 'YYYYMM' format
         """
-        (year, days) = self.__raw_file_match.match(file_name).groups()
-        test_date = date(int(year), 1, 1) + timedelta(days=int(days))
+        if file_name.find('/') > -1:
+            file_name = file_name.split('/')[1]
+        match = self.__raw_file_match.match(file_name)
+        (year, month) = match.groups()
+        test_date = date(int(year), int(month), 1)
         return test_date.strftime("%Y%m")
 
     def __get_calendar_value(self, file_name):
@@ -61,6 +64,8 @@ class LandSurfaceTemp:
         Returns:
             Integer value of the number of days since Jan 1, 1900
         """
+        if file_name.find('/') > -1:
+            file_name = file_name.split('/')[1]
         origin_date = date(1900, 1, 1)
         (year, days) = self.__raw_file_match.match(file_name).groups()
         test_date = date(int(year), 1, 1) + timedelta(days=(int(days) - 1))
@@ -139,14 +144,17 @@ class LandSurfaceTemp:
         """
         files = []
         try:
-            raw_files = self.__fileHandler.get_raw_file_names('lst_hdf_regex')
+            raw_files = sorted(self.__fileHandler.get_raw_file_names('lst_hdf_regex'), reverse=True)
             if all_hdf:  # include all HDF files
                 files = raw_files
             else:  # determine which HDF files have not been converted to NetCDF
                 working_files = self.__fileHandler.get_working_file_names('lst_netcdf_regex')
                 # parse out the year/days from the file name #
                 for f in raw_files:
-                    file_date = self.__get_hdf_date(f)
+                    name = f
+                    if name.find('/') > -1:
+                        name = name.split('/')[1]
+                    file_date = self.__get_hdf_date(name)
                     test_file = "STEP_0101_LST_{}_{}.nc".format(self.__region, file_date)
                     if test_file not in working_files:
                         files.append(f)
@@ -174,21 +182,16 @@ class LandSurfaceTemp:
 
             # extract SubGrids of the required parameters #
             with HDFSubGrid(self.__bounds, raw_file_path, self.__hdf_group) as sg:
-                lst_day = sg.create_sub_grid('LST_Day_CMG') * 0.02  # data is scaled in the HDF file
-                lst_night = sg.create_sub_grid('LST_Night_CMG') * 0.02  # data is scaled in the HDF file
+                lst_day = sg.create_sub_grid('LST_Day').astype(float) * 0.02  # data is scaled in the HDF file
+                lst_night = sg.create_sub_grid('LST_Night').astype(float) * 0.02  # data is scaled in the HDF file
                 qc_day = sg.create_sub_grid('QC_Day')
                 qc_night = sg.create_sub_grid('QC_Night')
 
             # compute the LST delta #
-            qc_day_filter = np.logical_or(np.logical_and(qc_day > 16, qc_day < 64), qc_day > 79)
-            filtered_lst_day = ma.masked_where(qc_day_filter, lst_day)
-
-            qc_night_filter = np.logical_or(np.logical_and(qc_night > 16, qc_night < 64), qc_night > 95)
-            filtered_lst_night = ma.masked_where(qc_night_filter, lst_night)
-
-            delta = filtered_lst_day - filtered_lst_night
-            delta_filter = np.logical_or(filtered_lst_day == 0, filtered_lst_night == 0, delta <= 0)
-            lst_delta = np.round(ma.masked_where(delta_filter, delta).filled(self.__missing), 3)
+            filtered_lst_day = ma.masked_where(np.logical_or(qc_day < 16, lst_day == 0), lst_day)
+            filtered_lst_night = ma.masked_where(np.logical_or(qc_night < 16, lst_night == 0), lst_night)
+            delta = np.ma.clip(np.ma.subtract(filtered_lst_day, filtered_lst_night), -40.0, 40.0)
+            lst_delta = np.round(delta.filled(self.__missing), 3)
 
             # create the output file #
             out_properties = {
@@ -253,7 +256,7 @@ class LandSurfaceTemp:
                 index = idx
                 # loop thru the years and add the data to the NetCDF file #
                 for y in month_anomalies:
-                    lst_var[index] = y
+                    lst_var[index] = y  # np.where(self.__missing, y, np.multiply(y, -1))  # reverse so positive anomalies are dry
                     index += 12  # increment 1 year
         except IOError:
             raise
