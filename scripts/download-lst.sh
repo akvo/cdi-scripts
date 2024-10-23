@@ -3,10 +3,11 @@
 # Define log file
 CURR_DATE=$(date +%Y%m%d)
 CURR_TIME=$(date +%H%M%S)
-LOG_FILE=~/log/download-log/lst-${CURR_DATE}-${CURR_TIME}.log
+LOG_DIR=~/log/download-log/lst
+LOG_FILE=${LOG_DIR}/lst-${CURR_DATE}-${CURR_TIME}.log
 
-if [ ! -d "~/log/download-log" ]; then
-    mkdir -p ~/log/download-log
+if [ ! -d "${LOG_DIR}" ]; then
+    mkdir -p "${LOG_DIR}"
 fi
 
 LST_DIR=~/dataset/LST
