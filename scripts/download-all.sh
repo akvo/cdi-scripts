@@ -31,16 +31,19 @@ download_file "https://data.chc.ucsb.edu/products/CHIRPS-2.0/global_monthly/tifs
 download_file "https://droughtcenter.unl.edu/Outgoing/CDI/data/CDI-Input/NDVI/" ".zip" "NDVI" &
 download_file "https://droughtcenter.unl.edu/Outgoing/CDI/data/CDI-Input/LST/" ".zip" "LST" &
 
-{
-    URL="https://hydro1.gesdisc.eosdis.nasa.gov/data/FLDAS/FLDAS_NOAH01_C_GL_M.001/"
-    URL_DIRS=$(curl -S "${URL}" \
-        | grep "\[DIR\]" \
-        | grep -v "doc" \
-        | grep -oP '(?<=href=")[^"]*')
+URL="https://hydro1.gesdisc.eosdis.nasa.gov/data/FLDAS/FLDAS_NOAH01_C_GL_M.001/"
+URL_DIRS=$(curl -S "${URL}" \
+    | grep "\[DIR\]" \
+    | grep -v "doc" \
+    | grep -oP '(?<=href=")[^"]*')
 
-    for URLS in ${URL_DIRS}; do
-        GES_URL="${URL}${URLS}"
-        GES_PATTERN="FLDAS.*\.nc"
-        download_file "${GES_URL}" "${GES_PATTERN}" "SOIL_MOISTURE"
-    done
-} &
+index=1  # Initialize the index
+for URLS in ${URL_DIRS}; do
+    GES_URL="${URL}${URLS}"
+    GES_PATTERN="FLDAS.*\.nc"
+    echo "Downloading... ${GES_URL}"
+    download_file "${GES_URL}" "${GES_PATTERN}" "SOIL_MOISTURE_${index}" &
+    disown  # Disown the process so it won't terminate when the terminal closes
+
+    index=$((index + 1))  # Increment the index
+done
