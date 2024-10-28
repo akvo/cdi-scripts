@@ -35,7 +35,9 @@ for year in $(seq 1982 2024); do
       echo "$year = incomplete"
       download_file "https://hydro1.gesdisc.eosdis.nasa.gov/data/FLDAS/FLDAS_NOAH01_C_GL_M.001/${year}/" ".nc" "SOIL_MOISTURE_${year}" &
       disown  # Disown the process so it won't terminate when the terminal closes
-    if
+    else
+      echo "$year = $count"
+    fi
   else
     echo "$year = incomplete"
     download_file "https://hydro1.gesdisc.eosdis.nasa.gov/data/FLDAS/FLDAS_NOAH01_C_GL_M.001/${year}/" ".nc" "SOIL_MOISTURE_${year}" &
