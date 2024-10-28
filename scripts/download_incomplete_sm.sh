@@ -1,5 +1,31 @@
 #!/bin/bash
 
+LOG_DIR=~/log
+
+mkdir -p "${LOG_DIR}"
+
+# Define log file
+CURR_DATE=$(date +%Y%m%d)
+CURR_TIME=$(date +%H%M%S)
+
+EMAIL="$1"
+
+if [ -z "${EMAIL}" ]; then
+    echo "Usage: ./download-all.sh <email>"
+    exit 1
+fi
+
+function download_file()
+{
+    URL=$1
+    PATTERN=$2
+    NAME=$3
+
+    mkdir -p ~/dataset/"${NAME}"
+
+    ./download.sh "${URL}" "${PATTERN}" "${LOG_DIR}/${NAME}-${CURR_DATE}-${CURR_TIME}.log" ~/dataset/"${NAME}" "${EMAIL}" > /dev/null 2>&1
+}
+
 # Directory to search
 directory=~/cdi-scripts/source/input_data/soil_moisture
 
@@ -15,17 +41,6 @@ for file in "$directory"/FLDAS_NOAH01_C_GL_M.A*.nc; do
     ((year_counts["$year"]++))
   fi
 done
-
-function download_file()
-{
-    URL=$1
-    PATTERN=$2
-    NAME=$3
-
-    mkdir -p ~/dataset/"${NAME}"
-
-    ./download.sh "${URL}" "${PATTERN}" "${LOG_DIR}/${NAME}-${CURR_DATE}-${CURR_TIME}.log" ~/dataset/"${NAME}" "${EMAIL}" > /dev/null 2>&1
-}
 
 # Print the results in the specified range (1982 to 2024)
 for year in $(seq 1982 2024); do
