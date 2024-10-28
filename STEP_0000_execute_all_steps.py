@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import time
+
 from netCDF4 import Dataset
 from STEP_0101_read_hdf_create_LST_anom_netcdf import main as step_0101
 from STEP_0102_read_hdf_create_NDVI_anom_netcdf import main as step_0102
@@ -24,29 +26,27 @@ Packages:
 """
 
 
+def log_time(step_name, func, *args):
+    start_time = time.time()
+    print(f"Executing {step_name}...")
+    func(*args)
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"{step_name} completed in {elapsed_time:.2f} seconds.\n")
+
+
 def main(args):
-    print("Executing Step 0101...")
-    step_0101(args)
-    print("Executing Step 0102...")
-    step_0102(args)
-    print("Executing Step 0103...")
-    step_0103(args)
-    print("Executing Step 0104...")
-    step_0104(args)
-    print("Executing Step 0201...")
-    step_0201()
-    print("Executing Step 0202...")
-    step_0202()
-    print("Executing Step 0203...")
-    step_0203()
-    print("Executing Step 0204...")
-    step_0204()
-    print("Executing Step 0301...")
-    step_0301()
-    print("Executing Step 0302...")
-    step_0302()
-    print("Executing Step 0303...")
-    step_0303(args)
+    log_time("Step 0101", step_0101, args)
+    log_time("Step 0102", step_0102, args)
+    log_time("Step 0103", step_0103, args)
+    log_time("Step 0104", step_0104, args)
+    log_time("Step 0201", step_0201)
+    log_time("Step 0202", step_0202)
+    log_time("Step 0203", step_0203)
+    log_time("Step 0204", step_0204)
+    log_time("Step 0301", step_0301)
+    log_time("Step 0302", step_0302)
+    log_time("Step 0303", step_0303, args)
     print("Finished processing CDI data")
 
 
