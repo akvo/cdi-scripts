@@ -185,7 +185,6 @@ source/input_data/CHIRPS/*
 source/input_data/soil_moisture/*
 source/map_data/*
 source/working_data/*
-source/output_data/GeoTiffs/*
 source/mapping/data/*
 source/mapping/output/maps/*
 
@@ -195,6 +194,5 @@ source/mapping/output/maps/*
 !source/input_data/soil_moisture/.gitkeep
 !source/map_data/.gitkeep
 !source/working_data/.gitkeep
-!source/output_data/GeoTiffs/.gitkeep
 !source/mapping/data/.gitkeep
 !source/mapping/output/maps/.gitkeep
