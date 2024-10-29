@@ -1,0 +1,75 @@
+Executing Step 0101...
+All months have been processed for LST.
+Creating LST anomaly file
+list index out of range
+Script execution: 0:00:00.006581
+Step 0101 completed in 0.01 seconds.
+
+Executing Step 0102...
+All months have been processed for NDVI.
+Creating NDVI anomaly file
+Script execution: 0:00:00.363721
+Step 0102 completed in 0.36 seconds.
+
+Executing Step 0103...
+All files have been processed for CHIRPS.
+Creating precipitation totals
+Creating SPI anomaly file
+-- SPI anomalies calculated for 3-month totals
+Script execution: 0:00:01.278865
+Step 0103 completed in 1.28 seconds.
+
+Executing Step 0104...
+All months have been processed for 5km Soil Moisture.
+Script execution: 0:00:00.006055
+Step 0104 completed in 0.01 seconds.
+
+Executing Step 0201...
+Ranking LST anomaly data...
+zero-size array to reduction operation maximum which has no identity
+Script execution: 0:00:00.003516
+Step 0201 completed in 0.00 seconds.
+
+Executing Step 0202...
+Ranking NDVI anomaly data...
+Script execution: 0:00:01.369521
+Step 0202 completed in 1.37 seconds.
+
+Executing Step 0203...
+Ranking SPI anomaly data...
+-- SPI anomalies ranked for 3-month totals
+Script execution: 0:00:03.707259
+Step 0203 completed in 3.71 seconds.
+
+Executing Step 0204...
+Ranking data for month: 01
+Ranking data for month: 02
+Ranking data for month: 03
+Ranking data for month: 04
+Ranking data for month: 05
+Ranking data for month: 06
+Ranking data for month: 07
+Ranking data for month: 08
+NetCDF: Index exceeds dimension bound
+Script execution: 0:00:07.167512
+Step 0204 completed in 7.17 seconds.
+
+Executing Step 0301...
+Initializing the weighted sum file.
+list index out of range
+Script execution: 0:00:00.011857
+Step 0301 completed in 0.01 seconds.
+
+Executing Step 0302...
+Ranking CDI weighted sum data...
+zero-size array to reduction operation maximum which has no identity
+Script execution: 0:00:00.003034
+Step 0302 completed in 0.00 seconds.
+
+Executing Step 0303...
+Exporting Tiff(s) for CDI...
+index -1 is out of bounds for axis 0 with size 0
+Script execution: 0:00:00.001136
+Step 0303 completed in 0.00 seconds.
+
+Finished processing CDI data
