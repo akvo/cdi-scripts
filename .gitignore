@@ -196,3 +196,9 @@ source/mapping/output/maps/*
 !source/working_data/.gitkeep
 !source/mapping/data/.gitkeep
 !source/mapping/output/maps/.gitkeep
+
+# Ignore all files starting with 'MERRA2_100.tavgM_2d_slv_Nx' in the 'scripts/' folder
+scripts/MERRA2_100.tavgM_2d_slv_Nx.*
+
+# Earth data cookies
+scripts/.urs_cookies
