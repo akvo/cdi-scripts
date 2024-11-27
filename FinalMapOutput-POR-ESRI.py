@@ -11,15 +11,14 @@ region = 'eSwatini'
 res = 150
 map_remote_output_dir = r'//ndmc-webp01/WebArchive/GlobalCDI/'+region+'/'
 
-for typ in ['CDI','LST','NDVI','SPI','SM']:
+for typ in ['CDI','LST','NDVI','SPI']:
     print 'Mapping '+typ
     arcpy.env.overwriteOutput = True
     tif_list = glob.glob(tif_dir+typ+'/*.tif')
     #in_tif = tif_list[-1]
     for in_tif in tif_list:
         tif_year = (in_tif[-10:])[0:4]
-        if tif_year>"2023":
-            
+        if tif_year>"2001":
             int_month = ((in_tif[-10:])[0:6])[-2:]
             monthinteger = int(int_month)
             month = datetime.date(1900, monthinteger, 1).strftime('%b')
