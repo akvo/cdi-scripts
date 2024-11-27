@@ -51,8 +51,8 @@ class LandSurfaceTemp:
         if file_name.find('/') > -1:
             file_name = file_name.split('/')[1]
         match = self.__raw_file_match.match(file_name)
-        (year, month) = match.groups()
-        test_date = date(int(year), int(month), 1)
+        (year, day_of_year) = match.groups()
+        test_date = datetime.strptime(year + "-" + day_of_year, "%Y-%j")
         return test_date.strftime("%Y%m")
 
     def __get_calendar_value(self, file_name):
@@ -256,7 +256,7 @@ class LandSurfaceTemp:
                 index = idx
                 # loop thru the years and add the data to the NetCDF file #
                 for y in month_anomalies:
-                    lst_var[index] = y  # np.where(self.__missing, y, np.multiply(y, -1))  # reverse so positive anomalies are dry
+                    lst_var[index] = y
                     index += 12  # increment 1 year
         except IOError:
             raise

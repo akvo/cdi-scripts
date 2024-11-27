@@ -10,7 +10,7 @@ region = 'eSwatini'
 ## Resolution can be changed here
 res = 150
 
-for typ in ['CDI','LST','NDVI','SPI','SM']:
+for typ in ['CDI','LST','NDVI','SPI']:
     print 'Mapping '+typ
     arcpy.env.overwriteOutput = True
     tif_list = glob.glob(tif_dir+typ+'/*.tif')
