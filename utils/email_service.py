@@ -62,5 +62,4 @@ def send_email(to, mail_type: MailTypes, attachment: str):
     }
 
     result = mailjet.send.create(data=data)
-    print(result.status_code)
-    print(result.json())
+    return result
