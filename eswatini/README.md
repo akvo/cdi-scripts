@@ -1,0 +1,1 @@
+# Eswatini CDI Automation
