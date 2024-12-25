@@ -301,7 +301,7 @@ class StandardizedPrecipitationIndex:
         min_range = min(self.__spi_periods)
         max_range = max(self.__spi_periods)
         try:
-            chirps_files = self.__fileHandler.get_working_file_names('chirps_netcdf_regex')
+            chirps_files = sorted(self.__fileHandler.get_working_file_names('chirps_netcdf_regex'))
 
             # get the valid times of the totals #
             self.__precip_times = self.__get_calendar_times(chirps_files, self.__working_chirps_file_match)
