@@ -102,7 +102,7 @@ class LandSurfaceTemp:
             file_test = re.compile(r'{}'.format(test_pattern))
 
             results = [
-                '{}/{}'.format(self.__working_dir, f) for f in os.listdir(self.__working_dir)
+                '{}/{}'.format(self.__working_dir, f) for f in sorted(os.listdir(self.__working_dir))
                 if file_test.match(f)
             ]
         except IOError as ioe:

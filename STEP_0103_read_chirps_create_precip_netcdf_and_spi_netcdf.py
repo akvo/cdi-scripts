@@ -141,7 +141,7 @@ class StandardizedPrecipitationIndex:
             file_test = re.compile(r'{}'.format(test_pattern))
 
             results = [
-                f for f in os.listdir(self.__working_dir)
+                f for f in sorted(os.listdir(self.__working_dir))
                 if file_test.match(f)
             ]
         except IOError as ioe:
