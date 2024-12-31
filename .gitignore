@@ -184,7 +184,6 @@ source/input_data/MOD13C2_NDVI/*
 source/input_data/CHIRPS/*
 source/input_data/soil_moisture/*
 source/map_data/*
-source/working_data/*
 source/mapping/data/*
 source/mapping/output/maps/*
 
