@@ -26,24 +26,41 @@ function download_file()
     ./download.sh "${URL}" "${PATTERN}" "${LOG_DIR}/${NAME}-${CURR_DATE}-${CURR_TIME}.log" ~/dataset/"${NAME}" "${EMAIL}" > /dev/null 2>&1
 }
 
+function download_ges_files() {
+    URL=$1
+    GES_PATTERN=$2
+    NAME=$3
+
+    URL_DIRS=$(curl -S "${URL}" \
+        | grep "\[DIR\]" \
+        | grep -v "doc" \
+        | grep -oP '(?<=href=")[^"]*')
+
+    index=1  # Initialize the index
+    count=0  # Initialize the count
+    for URLS in ${URL_DIRS}; do
+        GES_URL="${URL}${URLS}"
+        echo "Downloading... ${GES_URL}"
+        download_file "${GES_URL}" "${GES_PATTERN}" "${NAME}_${index}"
+
+        index=$((index + 1))  # Increment the index
+        count=$((count + 1))  # Increment the count
+
+        if [ $count -eq 10 ]; then
+            echo "Waiting for 5 minutes before starting the next batch..."
+            sleep 300  # Delay for 5 minutes
+            count=0  # Reset the count
+        fi
+    done
+}
+
 # main script
-download_file "https://data.chc.ucsb.edu/products/CHIRPS-2.0/global_monthly/tifs/" ".tif.gz" "CHIRPS" &
-download_file "https://droughtcenter.unl.edu/Outgoing/CDI/data/CDI-Input/NDVI/" ".zip" "NDVI" &
-download_file "https://droughtcenter.unl.edu/Outgoing/CDI/data/CDI-Input/LST/" ".zip" "LST" &
+CHIRPS_URL="https://data.chc.ucsb.edu/products/CHIRPS-2.0/global_monthly/tifs/"
+LST_URL="https://e4ftl01.cr.usgs.gov/MOLT/MOD21C3.061/"
+NDVI_URL="https://e4ftl01.cr.usgs.gov/MOLT/MOD13C2.061/"
+SM_URL="https://hydro1.gesdisc.eosdis.nasa.gov/data/FLDAS/FLDAS_NOAH01_C_GL_M.001/"
 
-URL="https://hydro1.gesdisc.eosdis.nasa.gov/data/FLDAS/FLDAS_NOAH01_C_GL_M.001/"
-URL_DIRS=$(curl -S "${URL}" \
-    | grep "\[DIR\]" \
-    | grep -v "doc" \
-    | grep -oP '(?<=href=")[^"]*')
-
-index=1  # Initialize the index
-for URLS in ${URL_DIRS}; do
-    GES_URL="${URL}${URLS}"
-    GES_PATTERN="FLDAS.*\.nc"
-    echo "Downloading... ${GES_URL}"
-    download_file "${GES_URL}" "${GES_PATTERN}" "SOIL_MOISTURE_${index}" &
-    disown  # Disown the process so it won't terminate when the terminal closes
-
-    index=$((index + 1))  # Increment the index
-done
+download_file "${CHIRPS_URL}" ".tif.gz" "CHIRPS" &
+download_ges_files "${LST_URL}" ".hdf" "LST" &
+download_ges_files "${NDVI_URL}" ".hdf" "NDVI" &
+download_ges_files "${SM_URL}" "FLDAS.*\.nc" "SOIL_MOISTURE" &
