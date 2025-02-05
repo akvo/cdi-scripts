@@ -107,7 +107,7 @@ class NetCDFtoTIFF:
     def __get_transformation(self):
         res = 0.05
         try:
-            self.__transform = Affine.translation(self.__longitudes[0] - res / 2, self.__latitudes[0] - res / 2) * Affine.scale(res, -res)
+            self.__transform = Affine.translation(self.__longitudes[0] - res / 2, self.__latitudes[0] + res / 2) * Affine.scale(res, -res)
         except ValueError:
             raise
         except Exception:
