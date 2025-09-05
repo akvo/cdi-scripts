@@ -186,6 +186,7 @@ source/input_data/soil_moisture/*
 source/map_data/*
 source/mapping/data/*
 source/mapping/output/maps/*
+source/output_data/*.nc
 
 !source/input_data/MOD21C3_LST/.gitkeep
 !source/input_data/MOD13C2_NDVI/.gitkeep

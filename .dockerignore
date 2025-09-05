@@ -88,6 +88,7 @@ source/input_data/soil_moisture/*
 source/map_data/*
 source/mapping/data/*
 source/mapping/output/maps/*
+source/output_data/*.nc
 
 # Keep .gitkeep files for empty dirs
 !source/input_data/MOD21C3_LST/.gitkeep
@@ -104,3 +105,6 @@ scripts/MERRA2_100.tavgM_2d_slv_Nx.*
 
 # Earth data cookies
 scripts/.urs_cookies
+
+# docker-compose file
+docker-compose.yml
