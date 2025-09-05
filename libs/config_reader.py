@@ -8,15 +8,15 @@ class ConfigParser:
     def __init__(self):
         self.config = {}
         # read the project config settings from the JSON #
-        with open('./cdi_project_settings.conf', 'r') as fh:
+        with open('./config/cdi_project_settings.json', 'r') as fh:
             self.config = json.loads(fh.read())
         # read the directory settings from the JSON #
-        with open('./cdi_directory_settings.conf', 'r') as fh:
+        with open('./config/cdi_directory_settings.json', 'r') as fh:
             file_config = json.loads(fh.read())
             for item in file_config.keys():
                 self.config[item] = file_config[item]
         # read the file patterns settings from the JSON #
-        with open('./cdi_pattern_settings.conf', 'r') as fh:
+        with open('./config/cdi_pattern_settings.json', 'r') as fh:
             file_config = json.loads(fh.read())
             for item in file_config.keys():
                 self.config[item] = file_config[item]
